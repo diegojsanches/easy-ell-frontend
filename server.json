@@ -1,0 +1,82 @@
+{
+  "products": [
+    {
+      "id": "123",
+      "code": "123456",
+      "description": "Nome do produto 01",
+      "stock": 5,
+      "price": 50,
+      "cost": 25,
+      "profit": 25
+    },
+    {
+      "id": "1234",
+      "code": "123457",
+      "description": "Nome do produto 02",
+      "stock": 5,
+      "price": 60,
+      "cost": 25,
+      "profit": 35
+    },
+    {
+      "id": "12345",
+      "code": "123458",
+      "description": "Nome do produto 03",
+      "stock": 5,
+      "price": 70,
+      "cost": 25,
+      "profit": 45
+    },
+    {
+      "id": "123456",
+      "code": "123459",
+      "description": "Nome do produto 04",
+      "stock": 5,
+      "price": 80,
+      "cost": 25,
+      "profit": 55
+    }
+  ],
+  "sales": [
+    {
+      "id": "1",
+      "buyer": "Jonh Joe",
+      "items": [
+        {
+          "product_id": "12345",
+          "amount": 5,
+          "price": 70,
+          "total": 350
+        },
+        {
+          "product_id": "123456",
+          "amount": 2,
+          "price": 80,
+          "total": 160
+        }
+      ],
+      "total": 510,
+      "created_at": "2020-01-31T23:28:56.782Z"
+    },
+    {
+      "id": "2",
+      "buyer": "Jonh Joe",
+      "items": [
+        {
+          "product_id": "1234",
+          "amount": 5,
+          "price": 60,
+          "total": 300
+        },
+        {
+          "product_id": "12345",
+          "amount": 2,
+          "price": 70,
+          "total": 140
+        }
+      ],
+      "total": 440,
+      "created_at": "2020-01-21T23:28:56.782Z"
+    }
+  ]
+}
