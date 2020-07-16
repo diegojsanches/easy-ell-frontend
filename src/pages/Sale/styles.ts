@@ -93,7 +93,17 @@ export const TableCol = styled.span`
   }
 
   &.total {
+    padding-right: 0;
     width: 250px;
+  }
+
+  &.option {
+    padding-left: 0;
+    width: 20px;
+
+    button {
+      height: 16px;
+    }
   }
 `;
 

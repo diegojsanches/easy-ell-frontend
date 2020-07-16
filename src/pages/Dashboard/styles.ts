@@ -43,8 +43,24 @@ export const Card = styled.div<CardProps>`
   }
 `;
 
+export const DateRange = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 20px;
+  strong {
+    margin: 0 10px;
+  }
+
+  div {
+    flex: 1;
+    background: #fff;
+  }
+`;
+
 export const TableContainer = styled.section`
-  margin-top: 24px;
+  margin-top: 14px;
 `;
 
 export const TableHeader = styled.div`

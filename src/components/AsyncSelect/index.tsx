@@ -41,7 +41,6 @@ const AsyncSelect: React.FC<Props> = ({ name, icon: Icon, ...rest }) => {
     <Container isErrored={!!error}>
       {Icon && <Icon size={20} />}
       <Select
-        cacheOptions
         defaultValue={defaultValue}
         ref={selectRef}
         classNamePrefix="react-select"

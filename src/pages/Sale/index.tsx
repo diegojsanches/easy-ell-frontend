@@ -3,6 +3,9 @@ import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { FormHandles, Scope } from '@unform/core';
 import { Form } from '@unform/web';
 
+import { useHistory } from 'react-router-dom';
+import { FiTrash } from 'react-icons/fi';
+import debounce from 'debounce-promise';
 import Header from '../../components/Header';
 
 import {
@@ -18,6 +21,7 @@ import Input from '../../components/Input';
 import AsyncSelect from '../../components/AsyncSelect';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
+import { useToast } from '../../hooks/toast';
 
 interface SaleFormData {
   buyer: string;
@@ -29,6 +33,7 @@ interface Product {
   id: string;
   code: string;
   description: string;
+  stock: number;
   price: string;
   label: string;
   value: string;
@@ -51,9 +56,11 @@ interface TotalData {
 
 const Sale: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
+  const { addToast } = useToast();
   const [changeMoney, setChangeMoney] = useState(formatValue(0));
   const [totalData, setTotalData] = useState<TotalData>({} as TotalData);
-  const [items, setitems] = useState<SaleItem[]>([]);
+  const [items, setItems] = useState<SaleItem[]>([]);
 
   useEffect(() => {
     const updatedTotal = items.reduce<number>(
@@ -68,20 +75,30 @@ const Sale: React.FC = () => {
     setChangeMoney(formatValue(0));
   }, [items]);
 
-  const loadOptions = useCallback(async (inputValue, callback) => {
-    const { data } = await api.get('/products', { params: { q: inputValue } });
+  const loadOptions = debounce(
+    useCallback(async (inputValue, callback) => {
+      try {
+        const { data } = await api.get('/products', {
+          params: { q: inputValue },
+        });
 
-    const selectProducts = data.map((product: Product) => ({
-      label: `${product.code} - ${product.description}`,
-      value: product.id,
-      ...product,
-    }));
+        const selectProducts = data.map((product: Product) => ({
+          ...product,
+          label: `${product.code} - ${product.description}`,
+          value: product.id,
+        }));
 
-    callback(selectProducts);
-  }, []);
+        callback(selectProducts);
+      } catch (err) {
+        console.log(err);
+      }
+    }, []),
+    300,
+    { leading: true },
+  );
 
   const handleAddItem = useCallback(() => {
-    setitems(changeItems => [
+    setItems(changeItems => [
       ...changeItems,
       {
         product: {} as Product,
@@ -94,6 +111,10 @@ const Sale: React.FC = () => {
         formattedTotal: formatValue(0),
       },
     ]);
+  }, []);
+
+  const handleRemoveItem = useCallback(index => {
+    setItems(filterItems => filterItems.splice(index, 1));
   }, []);
 
   const handleSelectProduct = useCallback(
@@ -111,7 +132,7 @@ const Sale: React.FC = () => {
         formattedPrice: formatValue(newValue.price),
         formattedTotal: formatValue(total),
       };
-      setitems(updatedItems =>
+      setItems(updatedItems =>
         updatedItems.map((changedItem, index) => {
           if (index === itemIndex) {
             return updatedItem;
@@ -128,6 +149,18 @@ const Sale: React.FC = () => {
     (itemIndex, newValue) => {
       const item = items[itemIndex];
       const amount = newValue.target.value;
+
+      if (item.product.stock < parseFloat(amount)) {
+        addToast({
+          type: 'error',
+          title: 'Quantidade inválida',
+          description: `Quantidade de items adicionado ao produto ${
+            itemIndex + 1
+          }. ${
+            item.product.description
+          } é maior do que a quantidade em estoque`,
+        });
+      }
       const total = amount * (item.price || 0);
       const updatedItem = {
         ...item,
@@ -135,7 +168,7 @@ const Sale: React.FC = () => {
         total,
         formattedTotal: formatValue(total),
       };
-      setitems(updatedItems =>
+      setItems(updatedItems =>
         updatedItems.map((changedItem, index) => {
           if (index === itemIndex) {
             return updatedItem;
@@ -145,7 +178,7 @@ const Sale: React.FC = () => {
       );
       return amount;
     },
-    [items],
+    [items, addToast],
   );
 
   const handlePayment = useCallback(
@@ -155,9 +188,23 @@ const Sale: React.FC = () => {
     [totalData],
   );
 
-  const handleSubmit = useCallback(async (data: SaleFormData) => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: SaleFormData) => {
+      try {
+        await api.post('sales/', data);
+
+        history.push('/');
+      } catch (err) {
+        console.log(err);
+        addToast({
+          type: 'error',
+          title: 'Erro ao salvar produto',
+          description: 'Ocorreu um erro ao tentar salvar produto.',
+        });
+      }
+    },
+    [history, addToast],
+  );
 
   return (
     <>
@@ -180,6 +227,7 @@ const Sale: React.FC = () => {
               <TableCol className="amount">Qtde</TableCol>
               <TableCol className="price">$ Unitario</TableCol>
               <TableCol className="total">$ Total</TableCol>
+              <TableCol className="option" />
             </TableHeader>
 
             {items.map((item, index) => (
@@ -188,6 +236,8 @@ const Sale: React.FC = () => {
                   <TableCol className="item">{index + 1}.</TableCol>
                   <TableCol className="description">
                     <AsyncSelect
+                      cacheOptions
+                      defaultOptions
                       defaultValue={item.product}
                       loadOptions={loadOptions}
                       name="product_id"
@@ -206,6 +256,14 @@ const Sale: React.FC = () => {
                   </TableCol>
                   <TableCol className="price">{item.formattedPrice}</TableCol>
                   <TableCol className="total">{item.formattedTotal}</TableCol>
+                  <TableCol className="option">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem(index)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </TableCol>
                 </TableRow>
               </Scope>
             ))}

@@ -19,6 +19,7 @@ import {
 } from './styles';
 import Modal from '../../components/Modal';
 import Input from '../../components/Input';
+import { useToast } from '../../hooks/toast';
 
 interface Product {
   id: string;
@@ -27,45 +28,90 @@ interface Product {
   stock: number;
   price: number;
   cost: number;
-  profit: number;
+  formattedProfit: string;
   formattedPrice: string;
   formattedCost: string;
 }
 
 const Products: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
+
   const [show, setShow] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+
+  const productFormatted = useCallback((dataProduct: Product) => {
+    return {
+      ...dataProduct,
+      formattedProfit: formatValue(dataProduct.price - dataProduct.cost),
+      formattedPrice: formatValue(dataProduct.price),
+      formattedCost: formatValue(dataProduct.cost),
+    };
+  }, []);
 
   useEffect(() => {
     async function updateSales(): Promise<void> {
       const { data: dataProducts } = await api.get('/products');
 
-      const productsFormatted = dataProducts.map((product: Product) => {
-        return {
-          ...product,
-          formattedPrice: formatValue(product.price),
-          formattedCost: formatValue(product.cost),
-        };
-      });
+      const productsFormatted = dataProducts.map(productFormatted);
 
       setProducts(productsFormatted);
     }
 
     updateSales();
-  }, []);
+  }, [productFormatted]);
 
-  const handleEditProduct = useCallback(async product => {
-    if (product) {
-      formRef.current?.setData(product);
+  const handleEditProduct = useCallback(async dataProduct => {
+    formRef.current?.reset();
+    if (dataProduct) {
+      setProduct(dataProduct);
+      formRef.current?.setData(dataProduct);
     }
 
     setShow(true);
   }, []);
 
-  const handleSubmit = useCallback(async data => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async data => {
+      let url = 'products';
+      let submit = api.post;
+
+      if (product?.id) {
+        url += `/${product.id}/`;
+        submit = api.put;
+      }
+      try {
+        const response = await submit(url, data);
+
+        setProducts(oldProducts => {
+          let dataProducts = oldProducts;
+          const indexProduct = oldProducts.findIndex(
+            dataProduct => dataProduct === product,
+          );
+          const dataProduct = productFormatted(response.data);
+
+          if (indexProduct >= 0) {
+            dataProducts[indexProduct] = dataProduct;
+          } else {
+            dataProducts = [...dataProducts, dataProduct];
+          }
+          console.log(dataProducts);
+
+          return dataProducts;
+        });
+        setShow(false);
+      } catch (err) {
+        console.log(err);
+        addToast({
+          type: 'error',
+          title: 'Erro ao salvar produto',
+          description: 'Ocorreu um erro ao tentar salvar produto.',
+        });
+      }
+    },
+    [addToast, productFormatted, product],
+  );
 
   return (
     <>
@@ -91,7 +137,7 @@ const Products: React.FC = () => {
               <TableCol>{item.stock}</TableCol>
               <TableCol>{item.formattedPrice}</TableCol>
               <TableCol>{item.formattedCost}</TableCol>
-              <TableCol>{item.profit}</TableCol>
+              <TableCol>{item.formattedProfit}</TableCol>
               <TableCol className="action">
                 <FiEdit onClick={() => handleEditProduct(item)} />
               </TableCol>
