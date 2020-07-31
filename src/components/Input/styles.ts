@@ -9,14 +9,18 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  border: 0;
-  border-bottom: 2px solid #666666;
+  border: 2px solid #666666;
+  border-radius: 8px;
+  padding: 8px;
+
   background: transparent;
 
   display: flex;
   align-items: center;
 
-  margin-bottom: 8px;
+  & + div {
+    margin-top: 8px;
+  }
 
   ${({ cleanInput }) =>
     cleanInput &&

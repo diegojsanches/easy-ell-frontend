@@ -7,8 +7,6 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import formatValue from '../../utils/formatValue';
-
 import {
   Container,
   TableContainer,
@@ -20,6 +18,7 @@ import {
 import Modal from '../../components/Modal';
 import Input from '../../components/Input';
 import { useToast } from '../../hooks/toast';
+import formatCurrency from '../../utils/formatCurrency';
 
 interface Product {
   id: string;
@@ -44,9 +43,9 @@ const Products: React.FC = () => {
   const productFormatted = useCallback((dataProduct: Product) => {
     return {
       ...dataProduct,
-      formattedProfit: formatValue(dataProduct.price - dataProduct.cost),
-      formattedPrice: formatValue(dataProduct.price),
-      formattedCost: formatValue(dataProduct.cost),
+      formattedProfit: formatCurrency(dataProduct.price - dataProduct.cost),
+      formattedPrice: formatCurrency(dataProduct.price),
+      formattedCost: formatCurrency(dataProduct.cost),
     };
   }, []);
 

@@ -10,9 +10,15 @@ import { Container, Error, customStyles } from './styles';
 
 interface Props extends AsyncProps<OptionTypeBase> {
   name: string;
+  cleanInput?: boolean;
   icon?: React.ComponentType<IconBaseProps>;
 }
-const AsyncSelect: React.FC<Props> = ({ name, icon: Icon, ...rest }) => {
+const AsyncSelect: React.FC<Props> = ({
+  name,
+  cleanInput = false,
+  icon: Icon,
+  ...rest
+}) => {
   const selectRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -50,7 +56,12 @@ const AsyncSelect: React.FC<Props> = ({ name, icon: Icon, ...rest }) => {
   }, [fieldName, registerField, rest.isMulti]);
 
   return (
-    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
+    <Container
+      isErrored={!!error}
+      isFilled={isFilled}
+      isFocused={isFocused}
+      cleanInput={cleanInput}
+    >
       {Icon && <Icon size={20} />}
       <Select
         cacheOptions

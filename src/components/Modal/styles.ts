@@ -5,7 +5,9 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  display: ${({ show }) => (show ? 'block' : 'none')};
+  display: ${({ show }) => (show ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
   position: fixed;
   background: #000;
   /* color: #fff; */
@@ -19,9 +21,9 @@ export const Container = styled.div<ContainerProps>`
 
 export const Content = styled.div`
   background: #fefefe;
-  margin: 15% auto;
+  max-width: 900px;
+  margin: 10px;
   padding: 20px;
-  width: 60%;
   border-radius: 6px;
 `;
 
@@ -29,6 +31,6 @@ export const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #666666;
+  border-bottom: 1px dashed #666666;
   margin-bottom: 15px;
 `;

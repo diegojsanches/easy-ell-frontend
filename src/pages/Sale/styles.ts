@@ -121,12 +121,9 @@ export const TableCol = styled.span`
   }
 
   &.option {
-    padding-left: 0;
-    width: 20px;
-
-    button {
-      height: 16px;
-    }
+    padding: 0;
+    width: 80px;
+    height: 65px;
   }
 `;
 
@@ -173,6 +170,15 @@ export const Card = styled.div<CardProps>`
 
     span {
       margin-right: 10px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    h1 {
+      font-size: 24px;
+      input {
+        font-size: 24px;
+      }
     }
   }
 `;

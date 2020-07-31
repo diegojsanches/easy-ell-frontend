@@ -44,6 +44,11 @@ export const Card = styled.div<CardProps>`
     font-weight: normal;
     line-height: 54px;
   }
+  @media (max-width: 1000px) {
+    h1 {
+      font-size: 24px;
+    }
+  }
 `;
 
 export const DateRange = styled.div`
@@ -111,9 +116,6 @@ export const TableRow = styled.div`
 
   & + div {
     margin-top: 15px;
-    span {
-      padding: 20px 24px 5px;
-    }
   }
 
   span {

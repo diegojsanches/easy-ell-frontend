@@ -11,8 +11,6 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import formatValue from '../../utils/formatValue';
-
 import {
   Container,
   CardContainer,
@@ -23,6 +21,8 @@ import {
   TableHeader,
 } from './styles';
 import Input from '../../components/Input';
+import formatCurrency from '../../utils/formatCurrency';
+import formatValue from '../../utils/formatValue';
 
 interface Sale {
   id: string;
@@ -65,9 +65,9 @@ const Dashboard: React.FC = () => {
     } = await api.get('/sales', { params: dateRange });
 
     setListSales({
-      formattedIncome: formatValue(incomeValue),
-      formattedOutcome: formatValue(outcomeValue),
-      formattedProfit: formatValue(profitValue),
+      formattedIncome: formatCurrency(incomeValue),
+      formattedOutcome: formatCurrency(outcomeValue),
+      formattedProfit: formatCurrency(profitValue),
     });
 
     const salesFormatted = dataSales.map((sale: Sale) => {
@@ -138,8 +138,8 @@ const Dashboard: React.FC = () => {
         <TableContainer>
           <TableHeader>
             <span className="hidden-sm">Comprador</span>
-            <span>Valor total</span>
-            <span>Valor custo</span>
+            <span>$ total</span>
+            <span>$ custo</span>
             <span>Data</span>
           </TableHeader>
 

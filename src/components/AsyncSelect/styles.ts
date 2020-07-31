@@ -6,18 +6,31 @@ interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
   isErrored: boolean;
+  cleanInput: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
-  border: 0;
-  border-bottom: 2px solid #666666;
-  background: transparent;
+  border: 2px solid #666666;
+  border-radius: 8px;
+  padding: 8px;
 
+  background: transparent;
 
   display: flex;
   align-items: center;
 
-  margin-bottom: 8px;
+  & + div {
+    margin-top: 8px;
+  }
+
+  ${({ cleanInput }) =>
+    cleanInput &&
+    css`
+      border: 0;
+      border-radius: 0;
+      border-bottom: 2px solid #666666;
+      padding: 0;
+    `}
 
   ${props =>
     props.isErrored &&

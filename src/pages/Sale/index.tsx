@@ -22,6 +22,7 @@ import AsyncSelect from '../../components/AsyncSelect';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 import { useToast } from '../../hooks/toast';
+import formatCurrency from '../../utils/formatCurrency';
 
 interface SaleFormData {
   buyer: string;
@@ -58,7 +59,7 @@ const Sale: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
   const { addToast } = useToast();
-  const [changeMoney, setChangeMoney] = useState(formatValue(0));
+  const [changeMoney, setChangeMoney] = useState(formatCurrency(0));
   const [totalData, setTotalData] = useState<TotalData>({} as TotalData);
   const [items, setItems] = useState<SaleItem[]>([]);
 
@@ -70,9 +71,9 @@ const Sale: React.FC = () => {
     formRef.current?.setFieldValue('payment', updatedTotal);
     setTotalData({
       total: updatedTotal,
-      formattedTotal: formatValue(updatedTotal),
+      formattedTotal: formatCurrency(updatedTotal),
     });
-    setChangeMoney(formatValue(0));
+    setChangeMoney(formatCurrency(0));
   }, [items]);
 
   const loadOptions = debounce(
@@ -183,7 +184,7 @@ const Sale: React.FC = () => {
 
   const handlePayment = useCallback(
     newValue => {
-      setChangeMoney(formatValue(newValue.target.value - totalData.total));
+      setChangeMoney(formatCurrency(newValue.target.value - totalData.total));
     },
     [totalData],
   );
@@ -247,6 +248,7 @@ const Sale: React.FC = () => {
                       onChange={newValue => {
                         return handleSelectProduct(index, newValue);
                       }}
+                      cleanInput
                     />
                   </TableCol>
                   <TableCol className="amount">
