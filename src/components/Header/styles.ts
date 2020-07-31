@@ -37,23 +37,23 @@ export const Container = styled.div<ContainerProps>`
           &:hover {
             opacity: 0.6;
           }
-        }
 
-        div {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          justify-content: center;
+          div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
 
-          margin-left: 40px;
-          strong {
-            color: #155263;
-            font-size: 16px;
-          }
+            margin-left: 40px;
+            strong {
+              color: #155263;
+              font-size: 16px;
+            }
 
-          small {
-            color: #155263;
-            font-size: 12px;
+            small {
+              color: #155263;
+              font-size: 12px;
+            }
           }
         }
       }
@@ -85,9 +85,6 @@ export const Container = styled.div<ContainerProps>`
         div {
           width: 60px;
           height: 60px;
-          /* position: fixed;
-          top: 25px;
-          right: 25px; */
 
           span {
             content: '';
@@ -95,9 +92,7 @@ export const Container = styled.div<ContainerProps>`
             display: block;
             background: #155263;
             width: 30px;
-            height: 2px;
-            top: 2px;
-            left: 15px;
+            height: 3px;
             transition: 0.5s ease-in-out;
           }
 
@@ -139,11 +134,9 @@ export const Container = styled.div<ContainerProps>`
           a {
             width: 100%;
             padding: 8px;
-            border-bottom: 1px dashed #155263;
-          }
-
-          div {
-            padding: 8px;
+            & + a {
+              border-top: 1px dashed #155263;
+            }
           }
         }
 

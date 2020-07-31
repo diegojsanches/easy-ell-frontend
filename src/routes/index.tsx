@@ -10,6 +10,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
+import Users from '../pages/User';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -21,6 +22,7 @@ const Routes: React.FC = () => (
     <AuthRoute path="/" exact component={Dashboard} isManager />
     <AuthRoute path="/venda" component={Sale} />
     <AuthRoute path="/produto" component={Products} />
+    <AuthRoute path="/perfil" component={Users} />
   </Switch>
 );
 

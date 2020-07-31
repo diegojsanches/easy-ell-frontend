@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   return (
     <Container size={size}>
       <header>
@@ -27,10 +27,12 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
             {user.manager && <Link to="/">Início</Link>}
             {user.manager && <Link to="/produto">Produtos</Link>}
             <Link to="/venda">Venda</Link>
-            <div>
-              <strong onClick={signOut}>{user.name}</strong>
-              {user.manager && <small>Gerente</small>}
-            </div>
+            <Link to="/perfil">
+              <div>
+                <strong>{user.name}</strong>
+                {user.manager && <small>Gerente</small>}
+              </div>
+            </Link>
           </nav>
         </div>
       </header>

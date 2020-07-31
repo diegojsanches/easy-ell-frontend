@@ -10,7 +10,6 @@ export const Container = styled.div<ContainerProps>`
   align-items: center;
   position: fixed;
   background: #000;
-  /* color: #fff; */
   height: 100%;
   width: 100%;
   top: 0;
