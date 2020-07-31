@@ -60,6 +60,26 @@ export const TableHeader = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
+
+  span {
+    padding: 20px 24px 5px;
+  }
+
+  @media (max-width: 700px) {
+    span {
+      &.hidden-sm {
+        display: none;
+      }
+    }
+  }
+  @media (max-width: 425px) {
+    span {
+      padding: 20px 12px 5px;
+      &.hidden-xs {
+        display: none;
+      }
+    }
+  }
 `;
 
 export const TableRow = styled.div`
@@ -70,12 +90,28 @@ export const TableRow = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  span {
+    padding: 20px 24px 5px;
+  }
+
   & + div {
     margin-top: 15px;
   }
 
   & + button {
     margin-top: 15px;
+  }
+
+  @media (max-width: 700px) {
+    span.hidden-sm {
+      display: none;
+    }
+  }
+
+  @media (max-width: 425px) {
+    span.hidden-xs {
+      display: none;
+    }
   }
 `;
 

@@ -17,15 +17,21 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => {
       <header>
         <img src={Logo} alt="easy$ell" />
         <div>
+          <input id="menu-icon" type="checkbox" />
+          <label htmlFor="menu-icon">
+            <div>
+              <span />
+            </div>
+          </label>
           <nav>
             {user.manager && <Link to="/">Início</Link>}
             {user.manager && <Link to="/produto">Produtos</Link>}
             <Link to="/venda">Venda</Link>
+            <div>
+              <strong onClick={signOut}>{user.name}</strong>
+              {user.manager && <small>Gerente</small>}
+            </div>
           </nav>
-          <div>
-            <strong onClick={signOut}>{user.name}</strong>
-            {user.manager && <small>Gerente</small>}
-          </div>
         </div>
       </header>
     </Container>

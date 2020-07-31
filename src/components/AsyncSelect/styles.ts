@@ -1,7 +1,10 @@
 import styled, { css } from 'styled-components';
+import { CSSProperties } from 'react';
 import Tooltip from '../Tooltip';
 
 interface ContainerProps {
+  isFocused: boolean;
+  isFilled: boolean;
   isErrored: boolean;
 }
 
@@ -10,14 +13,29 @@ export const Container = styled.div<ContainerProps>`
   border-bottom: 2px solid #666666;
   background: transparent;
 
-  & + div {
-    margin-top: 8px;
-  }
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 8px;
 
   ${props =>
     props.isErrored &&
     css`
       border-color: #c53030;
+    `}
+
+  ${props =>
+    props.isFocused &&
+    css`
+      color: #ffc93c;
+      border-color: #ffc93c;
+    `}
+
+  ${props =>
+    props.isFilled &&
+    css`
+      color: #ffc93c;
     `}
 
   div {
@@ -53,3 +71,42 @@ export const Error = styled(Tooltip)`
     }
   }
 `;
+
+export const customStyles = {
+  control: (provided: CSSProperties): any => {
+    const cssProperties = {
+      ...provided,
+      '&:hover': {
+        borderColor: 'none',
+      },
+      border: 'none',
+      boxShadow: 'none',
+      minHeight: 'auto',
+    };
+    return cssProperties;
+  },
+  input: (provided: CSSProperties): any => {
+    const cssProperties = {
+      ...provided,
+      margin: 0,
+      flex: 1,
+      padding: 0,
+    };
+    return cssProperties;
+  },
+  container: (provided: CSSProperties): any => {
+    const cssProperties = {
+      ...provided,
+      width: '100%',
+    };
+    return cssProperties;
+  },
+  valueContainer: (provided: CSSProperties): any => {
+    const cssProperties = {
+      ...provided,
+      padding: 0,
+    };
+    return cssProperties;
+  },
+  indicatorsContainer: () => ({ display: 'none' }),
+};

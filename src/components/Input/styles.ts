@@ -10,17 +10,13 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   border: 0;
-  border: 2px solid #666666;
-  border-radius: 6px;
+  border-bottom: 2px solid #666666;
   background: transparent;
-  padding: 15px;
 
   display: flex;
   align-items: center;
 
-  & + div {
-    margin-top: 8px;
-  }
+  margin-bottom: 8px;
 
   ${({ cleanInput }) =>
     cleanInput &&
@@ -52,10 +48,10 @@ export const Container = styled.div<ContainerProps>`
 
   input {
     display: block;
-    width: 100%;
     border: 0;
     background: transparent;
     color: #155263;
+    width: calc(100%);
 
     &::placeholder {
       color: #666360;

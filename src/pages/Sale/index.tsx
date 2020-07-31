@@ -218,22 +218,22 @@ const Sale: React.FC = () => {
               placeholder="Nome do comprador"
               cleanInput
             />
-            <button type="submit">Concluir venda</button>
+            <button type="submit">Concluir</button>
           </header>
           <TableContainer>
             <TableHeader>
-              <TableCol className="item">Item</TableCol>
+              <TableCol className="item hidden-sm">Item</TableCol>
               <TableCol>Produto</TableCol>
               <TableCol className="amount">Qtde</TableCol>
-              <TableCol className="price">$ Unitario</TableCol>
-              <TableCol className="total">$ Total</TableCol>
+              <TableCol className="price hidden-sm">$ UN</TableCol>
+              <TableCol className="total">Total</TableCol>
               <TableCol className="option" />
             </TableHeader>
 
             {items.map((item, index) => (
               <Scope path={`items[${index}]`}>
                 <TableRow key={item.product_id}>
-                  <TableCol className="item">{index + 1}.</TableCol>
+                  <TableCol className="item hidden-sm">{index + 1}.</TableCol>
                   <TableCol className="description">
                     <AsyncSelect
                       cacheOptions
@@ -241,6 +241,9 @@ const Sale: React.FC = () => {
                       defaultValue={item.product}
                       loadOptions={loadOptions}
                       name="product_id"
+                      noOptionsMessage={({ inputValue }) => {
+                        return inputValue || 'Sem produtos';
+                      }}
                       onChange={newValue => {
                         return handleSelectProduct(index, newValue);
                       }}
@@ -254,7 +257,9 @@ const Sale: React.FC = () => {
                       cleanInput
                     />
                   </TableCol>
-                  <TableCol className="price">{item.formattedPrice}</TableCol>
+                  <TableCol className="price hidden-sm">
+                    {item.formattedPrice}
+                  </TableCol>
                   <TableCol className="total">{item.formattedTotal}</TableCol>
                   <TableCol className="option">
                     <button

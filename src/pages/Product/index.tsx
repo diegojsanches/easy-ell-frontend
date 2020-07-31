@@ -119,12 +119,12 @@ const Products: React.FC = () => {
       <Container>
         <TableContainer>
           <TableHeader>
-            <TableCol>Código</TableCol>
+            <TableCol className="hidden-sm">Código</TableCol>
             <TableCol className="title">Descrição</TableCol>
             <TableCol>Estoque</TableCol>
-            <TableCol>Preço</TableCol>
-            <TableCol>Custo</TableCol>
-            <TableCol>Lucro</TableCol>
+            <TableCol className="hidden-xs">Preço</TableCol>
+            <TableCol className="hidden-sm">Custo</TableCol>
+            <TableCol className="hidden-sm">Lucro</TableCol>
             <TableCol className="action">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </TableCol>
@@ -132,12 +132,12 @@ const Products: React.FC = () => {
 
           {products.map(item => (
             <TableRow key={item.id}>
-              <TableCol>{item.code}</TableCol>
+              <TableCol className="hidden-sm">{item.code}</TableCol>
               <TableCol className="title">{item.description}</TableCol>
               <TableCol>{item.stock}</TableCol>
-              <TableCol>{item.formattedPrice}</TableCol>
-              <TableCol>{item.formattedCost}</TableCol>
-              <TableCol>{item.formattedProfit}</TableCol>
+              <TableCol className="hidden-xs">{item.formattedPrice}</TableCol>
+              <TableCol className="hidden-sm">{item.formattedCost}</TableCol>
+              <TableCol className="hidden-sm">{item.formattedProfit}</TableCol>
               <TableCol className="action">
                 <FiEdit onClick={() => handleEditProduct(item)} />
               </TableCol>

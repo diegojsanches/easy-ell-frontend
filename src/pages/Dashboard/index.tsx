@@ -137,7 +137,7 @@ const Dashboard: React.FC = () => {
 
         <TableContainer>
           <TableHeader>
-            <span>Comprador</span>
+            <span className="hidden-sm">Comprador</span>
             <span>Valor total</span>
             <span>Valor custo</span>
             <span>Data</span>
@@ -145,7 +145,7 @@ const Dashboard: React.FC = () => {
 
           {sales.map(item => (
             <TableRow key={item.id}>
-              <span className="title">{item.buyer}</span>
+              <span className="hidden-sm">{item.buyer}</span>
               <span>{item.formattedTotal}</span>
               <span>{item.formattedCost}</span>
               <span>{item.formattedDate}</span>

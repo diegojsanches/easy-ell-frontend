@@ -15,12 +15,15 @@ export const CardContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 32px;
+  padding: 8px;
   margin-top: -150px;
+  overflow: auto;
 `;
 
 export const Card = styled.div<CardProps>`
   background: ${({ total }: CardProps): string => (total ? '#4182D8' : '#fff')};
   padding: 22px 32px;
+  min-width: 200px;
   border-radius: 6px;
   color: ${({ total }: CardProps): string => (total ? '#fff' : '#363F5F')};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -57,6 +60,14 @@ export const DateRange = styled.div`
     flex: 1;
     background: #fff;
   }
+
+  @media (max-width: 700px) {
+    display: block;
+
+    strong {
+      display: none;
+    }
+  }
 `;
 
 export const TableContainer = styled.section`
@@ -78,6 +89,16 @@ export const TableHeader = styled.div`
     font-size: 16px;
     line-height: 24px;
   }
+
+  @media (max-width: 700px) {
+    span {
+      padding: 20px 24px 5px;
+
+      &.hidden-sm {
+        display: none;
+      }
+    }
+  }
 `;
 
 export const TableRow = styled.div`
@@ -90,6 +111,7 @@ export const TableRow = styled.div`
 
   & + div {
     margin-top: 15px;
+    padding: 20px 24px 5px;
   }
 
   span {
@@ -98,5 +120,15 @@ export const TableRow = styled.div`
     padding: 20px 32px;
     font-size: 16px;
     font-weight: normal;
+  }
+
+  @media (max-width: 700px) {
+    span {
+      padding: 20px 24px 5px;
+
+      &.hidden-sm {
+        display: none;
+      }
+    }
   }
 `;
