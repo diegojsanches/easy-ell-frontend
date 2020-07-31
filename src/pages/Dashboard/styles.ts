@@ -111,7 +111,9 @@ export const TableRow = styled.div`
 
   & + div {
     margin-top: 15px;
-    padding: 20px 24px 5px;
+    span {
+      padding: 20px 24px 5px;
+    }
   }
 
   span {
